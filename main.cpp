@@ -7,85 +7,95 @@ using namespace std;
 
 void Menu(), Menupriority();
 struct ToDo {
-    string task;
-    string deadline;
+    string nama;
+    int umur;
+    string goldar;
+    string gender;
+    string keluhan;
+    string waktutemu;
     string status;
-    int priority;
 };
 const int max_task = 100;
 ToDo list[max_task];
 int count = 0;
 
-
 void showTask(ToDo list[], int count) {
     system("cls");
     if (count == 0){
-        cout << "=================" << endl
-             << "   Task Kosong"    << endl
-             << "=================";getch();cout << endl;
+        cout << "====================" << endl
+             << "   Jadwal Kosong    " << endl
+             << "====================";getch();cout << endl;
         Menu();
     }
     cout << "Daftar Task:\n";
-    cout << "No\tPriority\tTask\t\tDeadline\tStatus\n";
+    cout << "No\tNama\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
     for (int i = 0; i < count; i++) {
-        cout << i+1 << "\t" << list[i].priority << "\t\t" << list[i].task << "\t\t" << list[i].deadline << "\t" << list[i].status << endl;
+        cout << i+1 << "\t" << list[i].nama << "\t\t" << list[i].umur << "\t\t" << list[i].goldar << "\t\t" << list[i].gender <<"\t\t"<< list[i].keluhan << "\t\t" << list[i].waktutemu << "\t\t" << list[i].status<< endl;
     }
 }
 
 void saveToFile(ToDo list[], int count) {
-    ofstream outfile("todolist.csv");
+    ofstream outfile("Database/Data_Pasien.csv");
     if (!outfile) {
-        cout << "Gagal membuka file todolist.csv." << endl;
+        cout << "Gagal membuka file Data_Pasien." << endl;
         return;
     }
 
-    outfile << "Priority,Task,Deadline,Status" << endl;
+    outfile << "Nama,Umur,Gol.Darah,Gender,Keluhan,Waktu temu,Status" << endl;
     for (int i = 0; i < count; i++) {
-        outfile << list[i].priority << ",";
-        outfile << list[i].task << ",";
-        outfile << list[i].deadline << ",";
+        outfile << list[i].nama << ",";
+        outfile << list[i].umur << ",";
+        outfile << list[i].goldar << ",";
+        outfile << list[i].gender << ",";
+        outfile << list[i].keluhan << ",";
+        outfile << list[i].waktutemu << ",";
         outfile << list[i].status << endl;
     }
 }
 
 
-void addTask(ToDo list[], int count){
+void addTask(ToDo list[], int& count){
     string input;
-    Menupriority();
+    // Menupriority();
+    cout << "\nNama Lengkap>> "; getline(cin,list[count].nama);
     try{
-        cout << "\nMasukkan prioritas (1-3)>> "; getline(cin,input);//cin >> list[count].priority;
-        list[count].priority = stoi(input);
-        if (list[count].priority > 3) {
-            cout << "Priority salah"; getch();cout<<endl;
+        cout << "Umur>> "; getline(cin,input);//cin >> list[count].priority;
+        list[count].umur = stoi(input);
+        if (list[count].umur < 1) {
+            cout << "Umur salah"; getch();cout<<endl;
             addTask(list,count);
         }
     }catch(std::invalid_argument& e){
         cout<<"Inputan harus Integer"; getch(); cout << endl;
         addTask(list,count);
     }
-        cout << "Masukkan task baru>> "; getline(cin, list[count].task);
-        cout << "Masukkan deadline (DD/MM/YYYY)>> "; getline(cin, list[count].deadline);
-        list[count].status = "Belum selesai";
-        count++;
-        saveToFile(list, count);
+    cout << "Golongan Darah>> "; getline(cin, list[count].goldar);
+    cout << "Gender (L/P)>> "; getline(cin, list[count].gender);
+    cout << "Keluhan>> "; getline(cin, list[count].keluhan);
+    cout << "Waktu Temu>> "; getline(cin, list[count].waktutemu);
+    list[count].status = "Dijadwalkan";
+    count++;
+    saveToFile(list, count);
 
-        cout << "\nData berhasil disimpan ke dalam file todolist.csv\n";
-        cout << "Tekan Enter untuk kembali ke menu";getch(); cout<<endl;
-        Menu();
+    cout << "\nData berhasil disimpan ke dalam Database\n";
+    cout << "Tekan Enter untuk kembali ke menu";getch(); cout<<endl;
+    Menu();
         
 }
 
 void deleteTask() {
     if (count == 0) {
-        cout << "Belum ada task!"; getch(); cout << endl;
+        cout << "====================" << endl
+             << "   Jadwal Kosong    "    << endl
+             << "====================";getch();cout << endl;
         Menu();
     }
     showTask(list, count);
     string input; int index;
-    cout << "\nMasukkan nomor task yang sudah selesai>> "; getline(cin, input);
+    cout << "\nMasukkan no Jadwal yang sudah selesai>> "; getline(cin, input);
     try {
         int index = stoi(input) - 1;
-        if (index >= 0 && index < count && list[index].status == "Belum selesai") {
+        if (index >= 0 && index < count && list[index].status == "Dijadwalkan") {
             for (int i = index; i < count - 1; i++) {
                 list[i] = list[i+1];
             }
@@ -104,10 +114,12 @@ void deleteTask() {
 }
 
 
-void updateTask(ToDo list[], int count) {
+void updateTask(ToDo list[], int& count) {
     system("cls");
     if (count == 0) {
-        cout << "Belum ada task!"; getch(); cout<< endl;
+        cout << "====================" << endl
+             << "   Jadwal Kosong    "    << endl
+             << "====================";getch();cout << endl;
         Menu();
     }
     else {
@@ -125,26 +137,29 @@ void updateTask(ToDo list[], int count) {
             updateTask(list, count);
         }
         else {
+            cout << "Nama Baru>> "; getline(cin,list[choice-1].nama);
             try {
-                cout << "\nUbah priority menjadi >> ";getline(cin, input);
-                int priority = stoi(input);
-                if (priority < 1 || priority > 3) {
-                    cout << "Priority tidak valid";getch(); cout<<endl;
+                cout << "Umur Baru>> ";getline(cin, input);
+                int umur = stoi(input);
+                if (umur < 1) {
+                    cout << "Umur tidak valid";getch(); cout<<endl;
                     updateTask(list, count);
                 }
                 else {
-                    list[choice-1].priority = priority;
+                    list[choice-1].umur = umur;
                 }
             } catch (std::invalid_argument& e){
                 cout << "Inputan harus integer"; getch(); cout << endl;
                 updateTask(list, count);
             }
-            cout << "Task Baru>> ";getline(cin, list[choice-1].task);
-            cout << "Deadline Baru>> "; getline(cin, list[choice-1].deadline);
-            list[choice-1].status = "Belum Selesai";
+            cout << "Golongan Darah>> "; getline(cin, list[choice-1].goldar);
+            cout << "Gender (L/P)>> "; getline(cin, list[choice-1].gender);
+            cout << "Keluhan>> "; getline(cin, list[choice-1].keluhan);
+            cout << "Waktu Temu>> "; getline(cin, list[choice-1].waktutemu);
+            list[choice-1].status = "Dijadwalkan";
 
             saveToFile(list, count);
-            cout << "\nData berhasil diupdate ke dalam file todolist.csv\n";
+            cout << "\nData berhasil diupdate ke dalam Database\n";
             cout << "Tekan Enter untuk kembali ke menu";getch(); cout<<endl;
             Menu();
         }
@@ -153,30 +168,36 @@ void updateTask(ToDo list[], int count) {
 
 
 void loadData() {
-    ifstream infile("todolist.csv");
+    ifstream infile("database/Data_Pasien.csv");
     if (!infile.is_open()) {
         cout << "File tidak ditemukan" << endl;
         return;
     }
     string line;
-    getline(infile, line); // skip header line
+    getline(infile, line);
     count = 0;
     while (getline(infile, line)) {
         stringstream iss(line);
-        string priority_str, task, deadline, status;
-        getline(iss, priority_str, ',');
-        getline(iss, task, ',');
-        getline(iss, deadline, ',');
+        string nama,umur,goldar,gender,keluhan,waktutemu,status;
+        getline(iss, nama, ',');
+        getline(iss, umur, ',');
+        getline(iss, goldar, ',');
+        getline(iss, gender, ',');
+        getline(iss, keluhan, ',');
+        getline(iss, waktutemu, ',');
         getline(iss, status, ',');
         try {
-            list[count].priority = stoi(priority_str);
+            list[count].umur = stoi(umur);
         } catch (std::invalid_argument& e) {
             cout << "Data pada file rusak" << endl;
             infile.close();
             return;
         }
-        list[count].task = task;
-        list[count].deadline = deadline;
+        list[count].nama = nama;
+        list[count].goldar = goldar;
+        list[count].gender = gender;
+        list[count].keluhan = keluhan;
+        list[count].waktutemu = waktutemu;
         list[count].status = status;
         count++;
         if (count == max_task) {
@@ -189,6 +210,7 @@ void loadData() {
 
 void Menupriority(){
     system("cls");
+    
     cout<<"========================"<<endl
         <<"     Periority List     "<<endl
         <<"========================"<<endl
@@ -199,7 +221,6 @@ void Menupriority(){
 }
 
 void Menu(){
-    
     system("cls");
     int choice; string input;
 
@@ -220,7 +241,6 @@ void Menu(){
                 addTask(list,count);
                 break;
             case 2:
-                loadData();
                 showTask(list, count);
                 cout<<"\nTekan Enter untuk kembali ke menu";getch();cout<<endl;
                 Menu();
@@ -246,6 +266,13 @@ void Menu(){
 
 int main(){
     int choice;
+    loadData();
+    //Database Load
+    // filesystem::path cwd = filesystem::current_path() / "database";
+    // ofstream file(cwd.string());
+    // file.close();
+
+    system("mkdir database");
     Menu();
 return 0;
 }
