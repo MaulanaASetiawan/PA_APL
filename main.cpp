@@ -29,19 +29,17 @@ void showTask(ToDo list[], int count)
     system("cls");
     if (count == 0)
     {
-        cout << "====================" << endl
-             << "   Jadwal Kosong    " << endl
-             << "====================";getch();cout << endl;
+        cout << "====================" << endl;
+        cout << "   Jadwal Kosong    " << endl;
+        cout << "====================";getch();
+        cout << endl;
         Menu();
     }
     cout << "Daftar Task:\n";
     cout << "No\tNama\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
     for (int i = 0; i < count; i++)
     {
-        cout << i+1 << "\t" << list[i].nama << "\t\t" 
-             << list[i].umur << "\t\t" << list[i].goldar 
-             << "\t\t" << list[i].gender <<"\t\t"<< list[i].keluhan 
-             << "\t\t" << list[i].waktutemu << "\t\t" << list[i].status<< endl;
+        cout << i+1 << "\t" << list[i].nama << "\t\t" << list[i].umur << "\t\t" << list[i].goldar << "\t\t" << list[i].gender <<"\t\t"<< list[i].keluhan << "\t\t" << list[i].waktutemu << "\t\t" << list[i].status<< endl;
     }
 }
 
@@ -264,28 +262,28 @@ void loadData()
 void Menupriority()
 {
     system("cls");
-    cout<<"========================"<<endl
-        <<"     Periority List     "<<endl
-        <<"========================"<<endl
-        <<" [1] Sangat Penting     "<<endl
-        <<" [2] Penting            "<<endl
-        <<" [3] Cukup penting      "<<endl
-        <<"========================"<<endl;
+    cout <<"========================"<<endl;
+    cout <<"     Periority List     "<<endl;
+    cout <<"========================"<<endl;
+    cout <<" [1] Sangat Penting     "<<endl;
+    cout <<" [2] Penting            "<<endl;
+    cout <<" [3] Cukup penting      "<<endl;
+    cout <<"========================"<<endl;
 }
 
 void Menu()
 {
     system("cls");
     int choice; string input;
-    cout <<"===================================="<<endl
-         <<"              ToDo List             "<<endl
-         <<"===================================="<<endl
-         <<" [1] Tambah Task                    "<<endl
-         <<" [2] List Task                      "<<endl
-         <<" [3] Hapus Task                     "<<endl
-         <<" [4] Update Task                    "<<endl
-         <<" [0] Keluar                         "<<endl
-         <<"===================================="<<endl;
+    cout <<"===================================="<<endl;
+    cout <<"              ToDo List             "<<endl;
+    cout <<"===================================="<<endl;
+    cout <<" [1] Tambah Task                    "<<endl;
+    cout <<" [2] List Task                      "<<endl;
+    cout <<" [3] Hapus Task                     "<<endl;
+    cout <<" [4] Update Task                    "<<endl;
+    cout <<" [0] Keluar                         "<<endl;
+    cout <<"===================================="<<endl;
     try
     {
         cout <<">> "; getline(cin, input);
