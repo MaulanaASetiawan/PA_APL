@@ -5,8 +5,12 @@
 #include <sstream>  
 using namespace std;
 
-void Menu(), Menupriority();
-struct ToDo {
+void Menu();
+void Menupriority();
+
+
+struct ToDo
+{
     string nama;
     int umur;
     string goldar;
@@ -15,13 +19,16 @@ struct ToDo {
     string waktutemu;
     string status;
 };
+
 const int max_task = 100;
 ToDo list[max_task];
 int count = 0;
 
-void showTask(ToDo list[], int count) {
+void showTask(ToDo list[], int count)
+{
     system("cls");
-    if (count == 0){
+    if (count == 0)
+    {
         cout << "====================" << endl
              << "   Jadwal Kosong    " << endl
              << "====================";getch();cout << endl;
@@ -29,20 +36,28 @@ void showTask(ToDo list[], int count) {
     }
     cout << "Daftar Task:\n";
     cout << "No\tNama\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
-    for (int i = 0; i < count; i++) {
-        cout << i+1 << "\t" << list[i].nama << "\t\t" << list[i].umur << "\t\t" << list[i].goldar << "\t\t" << list[i].gender <<"\t\t"<< list[i].keluhan << "\t\t" << list[i].waktutemu << "\t\t" << list[i].status<< endl;
+    for (int i = 0; i < count; i++)
+    {
+        cout << i+1 << "\t" << list[i].nama << "\t\t" 
+             << list[i].umur << "\t\t" << list[i].goldar 
+             << "\t\t" << list[i].gender <<"\t\t"<< list[i].keluhan 
+             << "\t\t" << list[i].waktutemu << "\t\t" << list[i].status<< endl;
     }
 }
 
-void saveToFile(ToDo list[], int count) {
+void saveToFile(ToDo list[], int count)
+{
     ofstream outfile("Database/Data_Pasien.csv");
-    if (!outfile) {
+    if (!outfile)
+    {
         cout << "Gagal membuka file Data_Pasien." << endl;
         return;
     }
-
+    
     outfile << "Nama,Umur,Gol.Darah,Gender,Keluhan,Waktu temu,Status" << endl;
-    for (int i = 0; i < count; i++) {
+
+    for (int i = 0; i < count; i++)
+    {
         outfile << list[i].nama << ",";
         outfile << list[i].umur << ",";
         outfile << list[i].goldar << ",";
@@ -54,25 +69,31 @@ void saveToFile(ToDo list[], int count) {
 }
 
 
-void addTask(ToDo list[], int& count){
+void addTask(ToDo list[], int& count)
+{
     string input;
-    // Menupriority();
     cout << "\nNama Lengkap>> "; getline(cin,list[count].nama);
-    try{
-        cout << "Umur>> "; getline(cin,input);//cin >> list[count].priority;
+    try
+    {
+        cout << "Umur>> "; getline(cin,input);
         list[count].umur = stoi(input);
-        if (list[count].umur < 1) {
+        if (list[count].umur < 1)
+        {
             cout << "Umur salah"; getch();cout<<endl;
             addTask(list,count);
         }
-    }catch(std::invalid_argument& e){
+    }
+    catch(std::invalid_argument& e)
+    {
         cout<<"Inputan harus Integer"; getch(); cout << endl;
         addTask(list,count);
     }
+
     cout << "Golongan Darah>> "; getline(cin, list[count].goldar);
     cout << "Gender (L/P)>> "; getline(cin, list[count].gender);
     cout << "Keluhan>> "; getline(cin, list[count].keluhan);
     cout << "Waktu Temu>> "; getline(cin, list[count].waktutemu);
+
     list[count].status = "Dijadwalkan";
     count++;
     saveToFile(list, count);
@@ -83,29 +104,39 @@ void addTask(ToDo list[], int& count){
         
 }
 
-void deleteTask() {
-    if (count == 0) {
+void deleteTask()
+{
+    if (count == 0)
+    {
         cout << "====================" << endl
              << "   Jadwal Kosong    "    << endl
              << "====================";getch();cout << endl;
         Menu();
     }
+
     showTask(list, count);
     string input; int index;
     cout << "\nMasukkan no Jadwal yang sudah selesai>> "; getline(cin, input);
+    
     try {
         int index = stoi(input) - 1;
-        if (index >= 0 && index < count && list[index].status == "Dijadwalkan") {
-            for (int i = index; i < count - 1; i++) {
+        if (index >= 0 && index < count && list[index].status == "Dijadwalkan")
+        {
+            for (int i = index; i < count - 1; i++)
+            {
                 list[i] = list[i+1];
             }
             count--;
             saveToFile(list, count);
             cout << "Task berhasil dihapus\n";
-        } else {
+        }
+        else
+        {
             cout << "Nomor task salah atau task sudah selesai\n";
         }
-    } catch(std::invalid_argument& e) {
+    }
+    catch(std::invalid_argument& e)
+    {
         cout << "Inputan harus Integer\n";
         deleteTask();
     }
@@ -114,44 +145,57 @@ void deleteTask() {
 }
 
 
-void updateTask(ToDo list[], int& count) {
+void updateTask(ToDo list[], int& count)
+{
     system("cls");
-    if (count == 0) {
+    if (count == 0)
+    {
         cout << "====================" << endl
              << "   Jadwal Kosong    "    << endl
              << "====================";getch();cout << endl;
         Menu();
     }
-    else {
+    else
+    {
         showTask(list, count);
         int choice; string input;
-        try{
+        try
+        {
         cout << "\n\nMasukkan nomor task yang ingin diubah >> "; getline(cin,input);
         choice = stoi(input);
-        }catch(std::invalid_argument& e) {
+        }
+        catch(std::invalid_argument& e) {
             cout << "Inputan harus Integer\n";
             updateTask(list,count);
         }
-        if (choice <= 0 || choice > count) {
+        if (choice <= 0 || choice > count)
+        {
             cout << "Nomor task tidak valid"; getch(); cout<<endl;
             updateTask(list, count);
         }
-        else {
+        else
+        {
             cout << "Nama Baru>> "; getline(cin,list[choice-1].nama);
-            try {
+            try
+            {
                 cout << "Umur Baru>> ";getline(cin, input);
                 int umur = stoi(input);
-                if (umur < 1) {
+                if (umur < 1)
+                {
                     cout << "Umur tidak valid";getch(); cout<<endl;
                     updateTask(list, count);
                 }
-                else {
+                else
+                {
                     list[choice-1].umur = umur;
                 }
-            } catch (std::invalid_argument& e){
+            }
+            catch (std::invalid_argument& e)
+            {
                 cout << "Inputan harus integer"; getch(); cout << endl;
                 updateTask(list, count);
             }
+
             cout << "Golongan Darah>> "; getline(cin, list[choice-1].goldar);
             cout << "Gender (L/P)>> "; getline(cin, list[choice-1].gender);
             cout << "Keluhan>> "; getline(cin, list[choice-1].keluhan);
@@ -167,16 +211,19 @@ void updateTask(ToDo list[], int& count) {
 }
 
 
-void loadData() {
+void loadData()
+{
     ifstream infile("database/Data_Pasien.csv");
-    if (!infile.is_open()) {
+    if (!infile.is_open())
+    {
         cout << "File tidak ditemukan" << endl;
         return;
     }
     string line;
     getline(infile, line);
     count = 0;
-    while (getline(infile, line)) {
+    while (getline(infile, line))
+    {
         stringstream iss(line);
         string nama,umur,goldar,gender,keluhan,waktutemu,status;
         getline(iss, nama, ',');
@@ -186,13 +233,18 @@ void loadData() {
         getline(iss, keluhan, ',');
         getline(iss, waktutemu, ',');
         getline(iss, status, ',');
-        try {
+
+        try
+        {
             list[count].umur = stoi(umur);
-        } catch (std::invalid_argument& e) {
+        }
+        catch (std::invalid_argument& e)
+        {
             cout << "Data pada file rusak" << endl;
             infile.close();
             return;
         }
+
         list[count].nama = nama;
         list[count].goldar = goldar;
         list[count].gender = gender;
@@ -200,7 +252,8 @@ void loadData() {
         list[count].waktutemu = waktutemu;
         list[count].status = status;
         count++;
-        if (count == max_task) {
+        if (count == max_task)
+        {
             break;
         }
     }
@@ -208,9 +261,9 @@ void loadData() {
 }
 
 
-void Menupriority(){
+void Menupriority()
+{
     system("cls");
-    
     cout<<"========================"<<endl
         <<"     Periority List     "<<endl
         <<"========================"<<endl
@@ -220,10 +273,10 @@ void Menupriority(){
         <<"========================"<<endl;
 }
 
-void Menu(){
+void Menu()
+{
     system("cls");
     int choice; string input;
-
     cout <<"===================================="<<endl
          <<"              ToDo List             "<<endl
          <<"===================================="<<endl
@@ -233,46 +286,47 @@ void Menu(){
          <<" [4] Update Task                    "<<endl
          <<" [0] Keluar                         "<<endl
          <<"===================================="<<endl;
-    try{
-    cout <<">> "; getline(cin, input);
-    choice = stoi(input);
-        switch (choice) {
-            case 1:
-                addTask(list,count);
-                break;
-            case 2:
-                showTask(list, count);
-                cout<<"\nTekan Enter untuk kembali ke menu";getch();cout<<endl;
-                Menu();
-                break;
-            case 3:
-                deleteTask();
-                break;
-            case 4:
-                updateTask(list,count);
-                break;
-            case 0:
-            cout << "Keluar dari program.\n";
-            exit(0);
-        default:
-            cout<<"\nMenu tidak ada, Enter untuk kembali";getch();cout<<endl;
-            Menu();
-        }
-    }catch(std::invalid_argument& e){
+    try
+    {
+        cout <<">> "; getline(cin, input);
+        choice = stoi(input);
+            switch (choice)
+            {
+                case 1:
+                    addTask(list,count);
+                    break;
+                case 2:
+                    showTask(list, count);
+                    cout<<"\nTekan Enter untuk kembali ke menu";getch();cout<<endl;
+                    Menu();
+                    break;
+                case 3:
+                    deleteTask();
+                    break;
+                case 4:
+                    updateTask(list,count);
+                    break;
+                case 0:
+                cout << "Keluar dari program.\n";
+                exit(0);
+                default:
+                    cout<<"\nMenu tidak ada, Enter untuk kembali";getch();cout<<endl;
+                    Menu();
+            }
+    }
+    catch(std::invalid_argument& e)
+    {
         cout<<"Inputan harus Integer"; getch(); cout << endl;
         Menu();
     }
 }
 
-int main(){
+int main()
+{
     int choice;
     loadData();
-    //Database Load
-    // filesystem::path cwd = filesystem::current_path() / "database";
-    // ofstream file(cwd.string());
-    // file.close();
-
     system("mkdir database");
     Menu();
+
 return 0;
 }
