@@ -6,15 +6,20 @@
 #include <string>
 #include <conio.h>
 #include <sstream>
+#include <chrono>
+#include <thread>
 #include <filesystem>
 #include "rot13.h"
 #include "interli.h"
 using namespace std;
+using namespace std::this_thread;
+using namespace std::chrono;
 using namespace filesystem;
 
 int pilihan, indexData = 0;
 string inputUsername, inputPassword;
 int banyak_opsi = 3;
+bool isLogin = false;
 
 struct User
 {
@@ -156,10 +161,32 @@ void Login()
     cin >> inputPassword;
     for (int i = 0; i < indexData; i++)
     {
-        if (users[i].username == inputUsername && users[i].password == inputPassword)
+        if (Rot13(users[i].username) == inputUsername && Rot13(users[i].password) == inputPassword)
         {
             cout << "Login Berhasil" << endl;
-            break;
+            isLogin = true;
+            system("cls");
+            if (Rot13(users[i].akses) == "dokter")
+            {
+                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                sleep_for(seconds(2));
+                system("cls");
+                // MenuDokter();
+            }
+            else if (Rot13(users[i].akses) == "apoteker")
+            {
+                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                sleep_for(seconds(2));
+                system("cls");
+                // MenuApoteker();
+            }
+            else
+            {
+                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                sleep_for(seconds(2));
+                system("cls");
+                // MenuPasien();
+            }
         }
         else
         {
