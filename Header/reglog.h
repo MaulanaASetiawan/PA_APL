@@ -11,6 +11,7 @@
 #include <filesystem>
 #include "rot13.h"
 #include "interli.h"
+#include "pasien.h"
 using namespace std;
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -161,31 +162,31 @@ void Login()
     cin >> inputPassword;
     for (int i = 0; i < indexData; i++)
     {
-        if (Rot13(users[i].username) == inputUsername && Rot13(users[i].password) == inputPassword)
+        if ((users[i].username) == inputUsername && (users[i].password) == inputPassword)
         {
             cout << "Login Berhasil" << endl;
             isLogin = true;
             system("cls");
-            if (Rot13(users[i].akses) == "dokter")
+            if ((users[i].akses) == "dokter")
             {
-                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                cout << "Selamat datang, " << (users[i].nama) << endl;
                 sleep_for(seconds(2));
                 system("cls");
                 // MenuDokter();
             }
-            else if (Rot13(users[i].akses) == "apoteker")
+            else if ((users[i].akses) == "apoteker")
             {
-                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                cout << "Selamat datang, " << (users[i].nama) << endl;
                 sleep_for(seconds(2));
                 system("cls");
                 // MenuApoteker();
             }
             else
             {
-                cout << "Selamat datang, " << Rot13(users[i].nama) << endl;
+                cout << "Selamat datang, " << (users[i].nama) << endl;
                 sleep_for(seconds(2));
                 system("cls");
-                // MenuPasien();
+                MenuPasien();
             }
         }
         else
