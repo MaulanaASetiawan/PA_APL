@@ -162,28 +162,28 @@ void Login()
     cin >> inputPassword;
     for (int i = 0; i < indexData; i++)
     {
-        if ((users[i].username) == inputUsername && (users[i].password) == inputPassword)
+        if (users[i].username == inputUsername && users[i].password == inputPassword)
         {
             cout << "Login Berhasil" << endl;
             isLogin = true;
             system("cls");
             if ((users[i].akses) == "dokter")
             {
-                cout << "Selamat datang, " << (users[i].nama) << endl;
+                cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));
                 system("cls");
                 // MenuDokter();
             }
             else if ((users[i].akses) == "apoteker")
             {
-                cout << "Selamat datang, " << (users[i].nama) << endl;
+                cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));
                 system("cls");
                 // MenuApoteker();
             }
             else
             {
-                cout << "Selamat datang, " << (users[i].nama) << endl;
+                cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));
                 system("cls");
                 MenuPasien();
@@ -191,8 +191,7 @@ void Login()
         }
         else
         {
-            cout << "Login Gagal" << endl;
-            break;
+            continue;
         }
     }
 }
