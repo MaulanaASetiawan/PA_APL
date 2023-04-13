@@ -6,7 +6,6 @@
 #include <string>
 #include <conio.h>
 #include <sstream> 
-#include <windows.h>
 #include <iomanip>
 using namespace std;
 
