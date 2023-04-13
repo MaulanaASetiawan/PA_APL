@@ -13,6 +13,7 @@
 #include "interli.h"
 #include "pasien.h"
 #include "dokter.h"
+#include "apoteker.h"
 using namespace std;
 using namespace this_thread;
 using namespace chrono;
@@ -180,7 +181,7 @@ void Login()
                 cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));
                 system("cls");
-                // MenuApoteker();
+                MenuApoteker();
             }
             else
             {
