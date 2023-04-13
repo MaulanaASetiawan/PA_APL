@@ -12,9 +12,10 @@
 #include "rot13.h"
 #include "interli.h"
 #include "pasien.h"
+#include "dokter.h"
 using namespace std;
-using namespace std::this_thread;
-using namespace std::chrono;
+using namespace this_thread;
+using namespace chrono;
 using namespace filesystem;
 
 int pilihan, indexData = 0;
@@ -167,14 +168,14 @@ void Login()
             cout << "Login Berhasil" << endl;
             isLogin = true;
             system("cls");
-            if ((users[i].akses) == "dokter")
+            if (users[i].akses == "dokter")
             {
                 cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));
                 system("cls");
-                // MenuDokter();
+                MenuDokter();
             }
-            else if ((users[i].akses) == "apoteker")
+            else if (users[i].akses == "apoteker")
             {
                 cout << "Selamat datang, " << users[i].nama << endl;
                 sleep_for(seconds(2));

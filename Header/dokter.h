@@ -1,0 +1,189 @@
+#ifndef DOKTER_H
+#define DOKTER_H
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <conio.h>
+#include <sstream>
+#include <filesystem>
+#include "interli.h"
+using namespace std;
+using namespace filesystem;
+
+int indexDataDokter = 0, banyakOpsiDokter = 3;
+
+struct Pasien
+{
+    string nama;
+    int umur;
+    string goldar;
+    string gender;
+    string keluhan;
+    string waktutemu;
+    string status;
+};
+
+struct HasilAnalisis
+{
+    string nama;
+    string keluhan;
+    string hasil;
+};
+
+HasilAnalisis hasil[100];
+Pasien listPasien[100];
+string nama;
+
+void fileChecker()
+{
+    path path = current_path();
+    if (!exists(path / "Database/Data_Dokter.csv"))
+    {
+        ofstream DataDokter;
+        DataDokter.open("Database/Data_Dokter.csv");
+        DataDokter << "Nama, Keluhan, Hasil" << endl;
+        DataDokter.close();
+    }
+}
+
+void csvToArray()
+{
+    ifstream dataPasien("Database/Data_Pasien.csv");
+    if (dataPasien.is_open())
+    {
+        string baris;
+        getline(dataPasien, baris);
+
+        while (getline(dataPasien, baris))
+        {
+            stringstream ss(baris);
+            string field;
+            int fieldIndex = 0;
+
+            Pasien pasien;
+
+            while (getline(ss, field, ','))
+            {
+                switch (fieldIndex)
+                {
+                case 0:
+                    pasien.nama = field;
+                    break;
+                case 1:
+                    pasien.umur = stoi(field);
+                    break;
+                case 2:
+                    pasien.goldar = field;
+                    break;
+                case 3:
+                    pasien.gender = field;
+                    break;
+                case 4:
+                    pasien.keluhan = field;
+                    break;
+                case 5:
+                    pasien.waktutemu = field;
+                    break;
+                case 6:
+                    pasien.status = field;
+                    break;
+                }
+
+                fieldIndex++;
+            }
+
+            listPasien[indexDataDokter] = pasien;
+            indexDataDokter++;
+        }
+
+        dataPasien.close();
+    }
+}
+
+void ReadDataPasien()
+{
+    csvToArray();
+    cout << "No\tNama\t\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
+    for (int i = 0; i < indexDataDokter; i++)
+    {
+        cout << i + 1 << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+    }
+}
+
+void CreateDokter()
+{
+    ReadDataPasien();
+    cout << endl;
+    cout << "Masukkan nama pasien: ";
+    getline(cin, nama);
+    fflush(stdin);
+    for (int i = 0; i < indexDataDokter; i++)
+    {
+        if (listPasien[i].nama == nama)
+        {
+            ofstream DataDokter;
+            DataDokter.open("Database/Data_Dokter.csv", ios::app);
+            hasil[i].nama = listPasien[i].nama;
+            hasil[i].keluhan = listPasien[i].keluhan;
+            cout << "Masukkan hasil analisis: ";
+            getline(cin, hasil[i].hasil);
+            fflush(stdin);
+            DataDokter << hasil[i].nama << "," << hasil[i].keluhan << "," << hasil[i].hasil << endl;
+            DataDokter.close();
+        }
+        else
+        {
+            if (i == indexDataDokter - 1)
+            {
+                cout << "Nama pasien tidak ditemukan.";
+                getch();
+            }
+            continue;
+        }
+    }
+
+    getch();
+}
+
+void ReadDokter()
+{
+    cout << "No\tNama\t\tKeluhan\t\tHasil\n";
+    for (int i = 0; i < indexDataDokter; i++)
+    {
+        cout << i + 1 << "\t" << hasil[i].nama << "\t\t" << hasil[i].keluhan << "\t\t" << hasil[i].hasil << endl;
+    }
+
+    cout << "Tekan ENTER untuk kembali.";
+    getch();
+}
+
+void MenuDokter()
+{
+    fileChecker();
+    system("cls");
+    string deskripsi_menu[3] = {"Create", "Read", "Back"};
+    string header_menu = "Menu Dokter";
+    create_menus(banyakOpsiDokter, deskripsi_menu, header_menu);
+
+    if (current_selection == 0)
+    {
+        CreateDokter();
+        MenuDokter();
+    }
+    else if (current_selection == 1)
+    {
+        ReadDokter();
+        MenuDokter();
+    }
+    else
+    {
+        exit(0);
+        MenuDokter();
+    }
+
+    getch();
+    MenuDokter();
+}
+
+#endif
