@@ -104,8 +104,8 @@ void saveToFile(SalinanResep list[], int counted)
         outfile << list[i].NamaObat << ",";
         outfile << list[i].Satuan << ",";
         outfile << list[i].Expired << ",";
-        outfile << list[i].Jumlah << ",";
-        outfile << list[i].DosisObat << endl;
+        outfile << list[i].DosisObat << ",";
+        outfile << list[i].Jumlah << endl;
     }
 }
 
@@ -161,9 +161,15 @@ void loadDataResep()
         getline(ss, NamaObat, ',');
         getline(ss, Satuan, ',');
         getline(ss, Expired, ',');
-        getline(ss, Jumlah, ',');
         getline(ss, DosisObat, ',');
+        getline(ss, Jumlah, ',');
         
+
+        listResep[counted].NamaPasien = NamaPasien;
+        listResep[counted].NamaObat = NamaObat;
+        listResep[counted].Satuan = Satuan;
+        listResep[counted].Expired = Expired;
+        listResep[counted].DosisObat = DosisObat;
         try
         {
             listResep[counted].Jumlah = stoi(Jumlah);
@@ -174,12 +180,6 @@ void loadDataResep()
             file.close();
             return;
         }
-
-        listResep[counted].NamaPasien = NamaPasien;
-        listResep[counted].Satuan = Satuan;
-        listResep[counted].Expired = Expired;
-        listResep[counted].NamaObat = NamaObat;
-        listResep[counted].DosisObat = DosisObat;
         counted++;
         if (counted == Max_data)
         {
