@@ -7,9 +7,11 @@
 #include <conio.h>
 #include <sstream>
 #include <iomanip>
+#include <ctime>
 using namespace std;
 
 void MenuPasien();
+void loadData();
 
 struct ToDo
 {
@@ -26,6 +28,9 @@ const int max_task = 100;
 ToDo lists[max_task];
 int hitung = 0;
 int pilih_menu = 0;
+tm date = {}; // reminder : date value 0
+tm date_update = {}; // reminder : date value 0
+
 
 void showTask(ToDo lists[], int hitung)
 {
@@ -40,16 +45,16 @@ void showTask(ToDo lists[], int hitung)
         MenuPasien();
     }
     cout << "Daftar Task:\n";
-    cout << "No\tNama\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
+    cout << "No\tNama\t\tWaktu Temu\t\tStatus\n";
     for (int i = 0; i < hitung; i++)
     {
-        cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].umur << "\t\t" << lists[i].goldar << "\t\t" << lists[i].gender << "\t\t" << lists[i].keluhan << "\t\t" << lists[i].waktutemu << "\t\t" << lists[i].status << endl;
+        cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].waktutemu << "\t\t" << lists[i].status << endl;
     }
 }
 
 void saveToFile(ToDo lists[], int hitung)
 {
-    ofstream outfile("Database/Data_Pasien.csv");
+    ofstream outfile("Database/Data_Pasien.csv",ios::out);
     if (!outfile)
     {
         cout << "Gagal membuka file Data_Pasien." << endl;
@@ -67,6 +72,28 @@ void saveToFile(ToDo lists[], int hitung)
         outfile << lists[i].keluhan << ",";
         outfile << lists[i].waktutemu << ",";
         outfile << lists[i].status << endl;
+    }
+}
+
+
+void Date(tm &date, ToDo lists[], int hitung)
+{
+    cout << "Masukkan tanggal (DD-MM-YYYY) >>  ";
+    cin >> get_time(&date, "%d-%m-%Y");
+
+    if (cin.fail()) 
+    {
+        cin.clear();
+        cout << "Format tanggal tidak valid!"; getch(); cout << endl;
+        while (cin.get() != '\n');
+        Date(date, lists, hitung);
+    }
+    else
+    {
+        time_t time = mktime(&date);
+        stringstream ss;
+        ss << put_time(localtime(&time), "%d %b %Y");
+        lists[hitung].waktutemu = ss.str();
     }
 }
 
@@ -100,12 +127,17 @@ void addTask(ToDo lists[], int &hitung)
     cout << "Golongan Darah>> ";
     getline(cin, lists[hitung].goldar);
     cout << "Gender (L/P)>> ";
-    getline(cin, lists[hitung].gender);
+    getline(cin, input);
+    if (input != "L" && input != "P")
+    {
+        cout << "Masukkan Gender dengan benar!-(L/P)";
+        getch();cout << endl;
+        addTask(lists, hitung);
+    }
+    lists[hitung].gender = input;
     cout << "Keluhan>> ";
     getline(cin, lists[hitung].keluhan);
-    cout << "Waktu Temu>> ";
-    getline(cin, lists[hitung].waktutemu);
-
+    Date(date,lists,hitung);
     lists[hitung].status = "Dijadwalkan";
     hitung++;
     saveToFile(lists, hitung);
@@ -231,13 +263,18 @@ void updateTask(ToDo lists[], int &hitung)
             cout << "Golongan Darah>> ";
             getline(cin, lists[choice - 1].goldar);
             cout << "Gender (L/P)>> ";
-            getline(cin, lists[choice - 1].gender);
+            getline(cin, input);
+            if (input != "L" && input != "P")
+            {
+                cout << "Masukkan Gender dengan benar!-(L/P)";
+                getch();cout << endl;
+                updateTask(lists, hitung);
+            }
+            lists[choice-1].gender = input;
             cout << "Keluhan>> ";
             getline(cin, lists[choice - 1].keluhan);
-            cout << "Waktu Temu>> ";
-            getline(cin, lists[choice - 1].waktutemu);
+            Date(date, lists, choice-1);
             lists[choice - 1].status = "Dijadwalkan";
-
             saveToFile(lists, hitung);
             cout << "\nData berhasil diupdate ke dalam Database\n";
             cout << "Tekan Enter untuk kembali ke MenuPasien";
@@ -299,6 +336,7 @@ void loadData()
 
 void MenuPasien()
 {
+    loadData();
     fflush(stdin);
     int pilih_menu = 0;
     int count_menu = 5;
@@ -387,8 +425,10 @@ void MenuPasien()
                 }
                 else if (pilih_menu == 4)
                 {
-                    cout << "Keluar dari program.\n";
+                    
                     exit(0);
+                    break;
+                    
                 }
                 else
                 {
