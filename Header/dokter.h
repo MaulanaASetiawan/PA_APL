@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <sstream>
 #include <filesystem>
+#include <cstring>
 #include "interli.h"
 using namespace std;
 using namespace filesystem;
@@ -34,6 +35,8 @@ struct HasilAnalisis
 HasilAnalisis hasil[100];
 Pasien listPasien[100];
 string nama;
+
+void MenuReadDokter();
 
 void fileChecker()
 {
@@ -103,21 +106,37 @@ void csvToArray()
 
 void ReadDataPasien()
 {
-    csvToArray();
+    int nomorData = 1;
     cout << "No\tNama\t\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
     for (int i = 0; i < indexDataDokter; i++)
     {
-        cout << i + 1 << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+        if (listPasien[i].umur != 0)
+        {
+            cout << 2 + i - nomorData << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+        }
+        else
+        {
+            nomorData++;
+            continue;
+        }
     }
+
+    cout << "Tekan ENTER untuk kembali.";
+    memset(listPasien, 0, sizeof(listPasien));
+    fflush(stdin);
+    getch();
 }
 
 void CreateDokter()
 {
-    ReadDataPasien();
+    csvToArray();
     cout << endl;
     cout << "Masukkan nama pasien: ";
     getline(cin, nama);
     fflush(stdin);
+    cout << endl;
+
+    bool found = false;
     for (int i = 0; i < indexDataDokter; i++)
     {
         if (listPasien[i].nama == nama)
@@ -131,27 +150,33 @@ void CreateDokter()
             fflush(stdin);
             DataDokter << hasil[i].nama << "," << hasil[i].keluhan << "," << hasil[i].hasil << endl;
             DataDokter.close();
-        }
-        else
-        {
-            if (i == indexDataDokter - 1)
-            {
-                cout << "Nama pasien tidak ditemukan.";
-                getch();
-            }
-            continue;
+            found = true;
+            break;
         }
     }
 
-    getch();
+    if (!found) {
+        cout << "Nama pasien tidak ditemukan.";
+    }
 }
+
+
 
 void ReadDokter()
 {
+    int nomorData = 1;
     cout << "No\tNama\t\tKeluhan\t\tHasil\n";
     for (int i = 0; i < indexDataDokter; i++)
     {
-        cout << i + 1 << "\t" << hasil[i].nama << "\t\t" << hasil[i].keluhan << "\t\t" << hasil[i].hasil << endl;
+        if (hasil[i].nama != "")
+        {
+            cout << 2 + i - nomorData << "\t" << hasil[i].nama << "\t\t" << hasil[i].keluhan << "\t\t" << hasil[i].hasil << endl;
+        }
+        else
+        {
+            nomorData++;
+            continue;
+        }
     }
 
     cout << "Tekan ENTER untuk kembali.";
@@ -161,6 +186,7 @@ void ReadDokter()
 void MenuDokter()
 {
     fileChecker();
+    csvToArray();
     system("cls");
     string deskripsi_menu[3] = {"Create", "Read", "Back"};
     string header_menu = "Menu Dokter";
@@ -168,22 +194,44 @@ void MenuDokter()
 
     if (current_selection == 0)
     {
+        ReadDataPasien();
         CreateDokter();
         MenuDokter();
     }
     else if (current_selection == 1)
     {
-        ReadDokter();
+        MenuReadDokter();
         MenuDokter();
     }
     else
     {
         exit(0);
-        MenuDokter();
     }
 
     getch();
     MenuDokter();
+}
+
+void MenuReadDokter()
+{
+    string deskripsiMenuDokter[3] = {"Data Pasien", "Data Hasil Analisis", "Back"};
+    string headerMenuDokter = "Menu Read Dokter";
+    create_menus(banyakOpsiDokter, deskripsiMenuDokter, headerMenuDokter);
+
+    if (current_selection == 0)
+    {
+        ReadDataPasien();
+        MenuReadDokter();
+    }
+    else if (current_selection == 1)
+    {
+        ReadDokter();
+        MenuReadDokter();
+    }
+    else
+    {
+        MenuDokter();
+    }
 }
 
 #endif
