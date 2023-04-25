@@ -107,29 +107,52 @@ void csvToArray()
 void ReadDataPasien()
 {
     int nomorData = 1;
-    cout << "No\tNama\t\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
-    for (int i = 0; i < indexDataDokter; i++)
+    if (listPasien[0].nama != "")
     {
-        if (listPasien[i].umur != 0)
+        cout << "No\tNama\t\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
+        for (int i = 0; i < indexDataDokter + 1; i++)
         {
-            cout << 2 + i - nomorData << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+            if (listPasien[i].umur != 0)
+            {
+                cout << 2 + i - nomorData << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+            }
+            else
+            {
+                nomorData++;
+                continue;
+            }
         }
-        else
-        {
-            nomorData++;
-            continue;
-        }
-    }
 
-    cout << "Tekan ENTER untuk kembali.";
-    memset(listPasien, 0, sizeof(listPasien));
-    fflush(stdin);
-    getch();
+        cout << "Tekan ENTER untuk kembali.";
+        fflush(stdin);
+        getch();
+    }
+    else
+    {
+        csvToArray();
+        cout << "No\tNama\t\tUmur\t\tGol.Darah\t\tGender\t\tKeluhan\t\tWaktu Temu\t\tStatus\n";
+        for (int i = 0; i < indexDataDokter + 1; i++)
+        {
+            if (listPasien[i].umur != 0)
+            {
+                cout << 2 + i - nomorData << "\t" << listPasien[i].nama << "\t\t" << listPasien[i].umur << "\t\t" << listPasien[i].goldar << "\t\t" << listPasien[i].gender << "\t\t" << listPasien[i].keluhan << "\t\t" << listPasien[i].waktutemu << "\t\t" << listPasien[i].status << endl;
+            }
+            else
+            {
+                nomorData++;
+                continue;
+            }
+        }
+
+        cout << "Tekan ENTER untuk kembali.";
+        fflush(stdin);
+        getch();
+    }
 }
 
 void CreateDokter()
 {
-    csvToArray();
+    ReadDataPasien();
     cout << endl;
     cout << "Masukkan nama pasien: ";
     getline(cin, nama);
@@ -137,7 +160,7 @@ void CreateDokter()
     cout << endl;
 
     bool found = false;
-    for (int i = 0; i < indexDataDokter; i++)
+    for (int i = 0; i < indexDataDokter + 1; i++)
     {
         if (listPasien[i].nama == nama)
         {
@@ -155,18 +178,17 @@ void CreateDokter()
         }
     }
 
-    if (!found) {
+    if (!found)
+    {
         cout << "Nama pasien tidak ditemukan.";
     }
 }
-
-
 
 void ReadDokter()
 {
     int nomorData = 1;
     cout << "No\tNama\t\tKeluhan\t\tHasil\n";
-    for (int i = 0; i < indexDataDokter; i++)
+    for (int i = 0; i < indexDataDokter + 1; i++)
     {
         if (hasil[i].nama != "")
         {
@@ -186,7 +208,6 @@ void ReadDokter()
 void MenuDokter()
 {
     fileChecker();
-    csvToArray();
     system("cls");
     string deskripsi_menu[3] = {"Create", "Read", "Back"};
     string header_menu = "Menu Dokter";
@@ -194,7 +215,6 @@ void MenuDokter()
 
     if (current_selection == 0)
     {
-        ReadDataPasien();
         CreateDokter();
         MenuDokter();
     }
