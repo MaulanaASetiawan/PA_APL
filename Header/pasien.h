@@ -76,17 +76,17 @@ void saveToFile(ToDo lists[], int hitung)
         return;
     }
 
-    outfile << "Nama,Umur,Gol.Darah,Gender,Keluhan,Waktu temu,Status" << endl;
+    outfile << "Nama/Umur/Gol.Darah/Gender/Keluhan/Waktu temu/Status" << endl;
 
     for (int i = 0; i < hitung; i++)
     {
         fflush(stdin);
-        outfile << lists[i].nama << ",";
-        outfile << lists[i].umur << ",";
-        outfile << lists[i].goldar << ",";
-        outfile << lists[i].gender << ",";
-        outfile << lists[i].keluhan << ",";
-        outfile << lists[i].waktutemu << ",";
+        outfile << lists[i].nama << "/";
+        outfile << lists[i].umur << "/";
+        outfile << lists[i].goldar << "/";
+        outfile << lists[i].gender << "/";
+        outfile << lists[i].keluhan << "/";
+        outfile << lists[i].waktutemu << "/";
         outfile << lists[i].status << endl;
     }
 
@@ -95,13 +95,20 @@ void saveToFile(ToDo lists[], int hitung)
 
 void Date(tm &date, ToDo lists[], int hitung)
 {
+    // Mendapatkan waktu sekarang 
+    time_t now = time(nullptr); // nullptr bawaan cpp dia pointernull
+    // Konversi waktu saat ini ke struct tm
+    tm *local_now = localtime(&now);
+
     cout << "Masukkan tanggal (DD-MM-YYYY) >>  ";
     cin >> get_time(&date, "%d-%m-%Y");
 
-    if (cin.fail()) 
+    if (cin.fail() || mktime(&date) < now) 
     {
         cin.clear();
-        cout << "Format tanggal tidak valid!"; getch(); cout << endl;
+        cout << "Format tanggal tidak valid atau tanggal tidak boleh sebelum hari ini!"; 
+        getch(); 
+        cout << endl;
         while (cin.get() != '\n');
         Date(date, lists, hitung);
     }
@@ -113,6 +120,7 @@ void Date(tm &date, ToDo lists[], int hitung)
         lists[hitung].waktutemu = ss.str();
     }
 }
+
 
 void ShellSort()
 {
@@ -156,8 +164,6 @@ void SearchPasien(ToDo *lists, int hitung)
     {
         nama[j] = tolower(nama[j]);
     }
-    int counts = 0;
-    int name_search = 0;
     cout << "Daftar Task:\n";
     cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
     for (int i = 0; i <hitung; i++)
@@ -172,10 +178,8 @@ void SearchPasien(ToDo *lists, int hitung)
         if (found >= 0)
         {
             cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
-            name_search++;
         }
     }
-    counts = counts + name_search;
 }
 
 void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  field, int counts)
@@ -388,7 +392,6 @@ void updateTask(ToDo *lists, int hitung)
         nama[j] = tolower(nama[j]);
     }
 
-    int counts = 0;
     int name_search = 0;
     int choice = 0;
     cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
@@ -403,7 +406,6 @@ void updateTask(ToDo *lists, int hitung)
         {
             temp[j] = tolower(temp[j]);
         }
-
         int found = temp.find(nama);
         if (found >= 0)
         {
@@ -492,13 +494,13 @@ void LoadData_Pasien()
     {
         stringstream iss(line);
         string nama, umur, goldar, gender, keluhan, waktutemu, status;
-        getline(iss, nama, ',');
-        getline(iss, umur, ',');
-        getline(iss, goldar, ',');
-        getline(iss, gender, ',');
-        getline(iss, keluhan, ',');
-        getline(iss, waktutemu, ',');
-        getline(iss, status, ',');
+        getline(iss, nama, '/');
+        getline(iss, umur, '/');
+        getline(iss, goldar, '/');
+        getline(iss, gender, '/');
+        getline(iss, keluhan, '/');
+        getline(iss, waktutemu, '/');
+        getline(iss, status, '/');
 
         try
         {
@@ -541,9 +543,9 @@ void LoadData_Dokter()
     {
         stringstream iss(line);
         string nama, keluhan, hasil;
-        getline(iss, nama, ',');
-        getline(iss, keluhan, ',');
-        getline(iss, hasil, ',');
+        getline(iss, nama, '/');
+        getline(iss, keluhan, '/');
+        getline(iss, hasil, '/');
 
         review[field].nama = nama;
         review[field].keluhan = keluhan;
@@ -572,12 +574,12 @@ void LoadData_Apoteker()
     {
         stringstream iss(line);
         string nama_pasien,nama_obat,satuan,expired,dosis,jumlah_obat;
-        getline(iss, nama_pasien, ',');
-        getline(iss, nama_obat, ',');
-        getline(iss, satuan, ',');
-        getline(iss, expired, ',');
-        getline(iss, dosis, ',');
-        getline(iss, jumlah_obat, ',');
+        getline(iss, nama_pasien, '/');
+        getline(iss, nama_obat, '/');
+        getline(iss, satuan, '/');
+        getline(iss, expired, '/');
+        getline(iss, dosis, '/');
+        getline(iss, jumlah_obat, '/');
 
         try
         {
