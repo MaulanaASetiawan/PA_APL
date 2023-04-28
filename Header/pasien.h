@@ -129,7 +129,7 @@ void ShellSort()
         {
             temp = lists[i];
             int j;
-            for (j = i; j >= gap && lists[j - gap].nama > temp.nama; j -= gap)
+            for (j = i; j >= gap && lists[j - gap].waktutemu > temp.waktutemu; j -= gap)
             {
                 lists[j] = lists[j - gap];
             }
@@ -158,40 +158,37 @@ void SearchPasien(ToDo *lists, int hitung)
     getline(cin, input);
     string nama = input;
 
+    bool get = false;
     for (int j = 0; j < nama.size(); j++)
     {
         nama[j] = tolower(nama[j]);
     }
-    cout << "Daftar Task:\n";
-    cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
-    for (int i = 0; i < hitung; i++)
+    for (int i = 0; i <hitung; i++)
     {
         string temp = lists[i].nama;
         for (int j = 0; j < temp.size(); j++)
         {
-            temp[j] = tolower(temp[j]);
+        temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
         if (found >= 0)
         {
+            get = true;
+            cout << "Daftar Task:\n";
+            cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
             cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
         }
     }
+    if (!get)
+    {
+        cout << "Tidak ada pasien dengan nama \"" << nama << "\"." << endl;
+    }
 }
 
-void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int field, int counts)
+void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  field, int counts)
 {
     system("cls");
-    if (hitung == 0)
-    {
-        cout << "====================" << endl;
-        cout << "   Jadwal Kosong    " << endl;
-        cout << "====================";
-        getch();
-        cout << endl;
-        MenuPasien();
-    }
 
     ShellSort();
     string input;
@@ -200,72 +197,117 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int fi
     getline(cin, input);
     string nama = input;
 
+    bool get = false;
     for (int j = 0; j < nama.size(); j++)
     {
         nama[j] = tolower(nama[j]);
     }
-    cout << "Daftar Task:\n";
+
     for (int i = 0; i < hitung; i++)
     {
-        string temp = lists[i].nama;
+        string temp = lists[i].nama ;
         for (int j = 0; j < temp.size(); j++)
         {
-            temp[j] = tolower(temp[j]);
+        temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
         if (found >= 0)
         {
+            get = true;
             cout << "-------------------------------------------------------------------------------------------------" << endl;
             cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
             cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
         }
     }
-
-    for (int i = 0; i < field; i++)
+    if (!get)
     {
-        string temp = review[i].nama;
-        for (int j = 0; j < temp.size(); j++)
-        {
-            temp[j] = tolower(temp[j]);
-        }
-
-        int found = temp.find(nama);
-        if (found >= 0)
-        {
-            cout << "-------------------------------------------------------------------------------------------------" << endl;
-            cout << "No\tNama\t\t\t\tKeluhan\t\tHasil\n";
-            cout << i + 1 << "\t" << review[i].nama << "\t\t" << review[i].keluhan << "\t\t" << review[i].hasil << endl;
-        }
+        cout << "Tidak ada pasien dengan nama \"" << nama << "\"." << endl;
+        return;
     }
 
-    for (int i = 0; i < counts; i++)
+    if (hitung > 0)
     {
-        string temp = final[i].NamaPasien;
-        for (int j = 0; j < temp.size(); j++)
+        bool foundDokter = false;
+        for (int i = 0; i < field; i++)
         {
+            string temp = review[i].nama ;
+            for (int j = 0; j < temp.size(); j++)
+            {
             temp[j] = tolower(temp[j]);
-        }
+            }
 
-        int found = temp.find(nama);
-        if (found >= 0)
+            int found = temp.find(nama);
+            if (found >= 0)
+            {
+                foundDokter = true;
+                cout << "-------------------------------------------------------------------------------------------------" << endl;
+                cout << "No\tNama\t\t\t\tKeluhan\t\tHasil\n";
+                cout << i + 1 << "\t" << review[i].nama << "\t\t" << review[i].keluhan << "\t\t" << review[i].hasil << endl;
+            }
+        }
+        if(!foundDokter)
         {
             cout << "-------------------------------------------------------------------------------------------------" << endl;
-            cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
-            cout << i + 1 << "\t" << final[i].NamaPasien << "\t\t\t";
-            cout << final[i].NamaObat << "\t\t" << final[i].Satuan;
-            cout << "\t\t" << final[i].Expired << "\t\t" << final[i].DosisObat;
-            cout << "\t\t" << final[i].Jumlah << endl;
+            cout << "Mohon menunggu hingga dokter selesai Menganalisa" << endl;
         }
+
+        bool foundApoteker = false;
+        for (int i = 0; i < counts; i++)
+        {
+            string temp = final[i].NamaPasien ;
+            for (int j = 0; j < temp.size(); j++)
+            {
+            temp[j] = tolower(temp[j]);
+            }
+
+            int found = temp.find(nama);
+            if (found >= 0)
+            {
+                foundApoteker = true;
+                cout << "-------------------------------------------------------------------------------------------------" << endl;
+                cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
+                cout << i + 1 << "\t" << final[i].NamaPasien << "\t\t\t" 
+                        << final[i].NamaObat << "\t\t" << final[i].Satuan 
+                        << "\t\t" << final[i].Expired <<"\t\t"<< final[i].DosisObat 
+                        << "\t\t" << final[i].Jumlah <<endl;
+                cout << "-------------------------------------------------------------------------------------------------" << endl;
+            }
+        }
+        if (!foundApoteker)
+        {
+            cout << "-------------------------------------------------------------------------------------------------" << endl;
+            cout << "Resep sedang dibuat, Mohon ditunggu" << endl;
+            cout << "-------------------------------------------------------------------------------------------------" << endl;
+        }
+    }
+    else
+    {
+        cout << "====================" << endl;
+        cout << "   Jadwal Kosong    " << endl;
+        cout << "====================";
+        getch();
+        cout << endl;
+        MenuPasien();
     }
 }
 
 void addTask(ToDo lists[], int &hitung)
 {
     system("cls");
-    string input;
+    string input, inputNama;
     cout << "\nNama Lengkap>> ";
-    getline(cin, lists[hitung].nama);
+    getline(cin, inputNama);
+    for(int i = 0; i < hitung; i++)
+    {
+        if(inputNama == lists[i].nama)
+        {
+            cout << "\nData telah terdaftar\n";
+            cout << "Silahkan Pergi ke Menu Update";
+            getch();MenuPasien();
+        }
+    }
+    lists[hitung].nama = inputNama;
     try
     {
         cout << "Umur>> ";
@@ -292,9 +334,8 @@ void addTask(ToDo lists[], int &hitung)
     if (input != "A" && input != "B" && input != "AB" && input != "O")
     {
         cout << "Masukkan Goldar dengan benar!-(A/B/AB/O)";
-        getch();
-        cout << endl;
-        addTask(lists, hitung);
+        getch(); cout << endl;
+        addTask(lists,hitung);
     }
     lists[hitung].goldar = input;
     cout << "Gender (L/P)>> ";
@@ -302,14 +343,13 @@ void addTask(ToDo lists[], int &hitung)
     if (input != "L" && input != "P")
     {
         cout << "Masukkan Gender dengan benar!-(L/P)";
-        getch();
-        cout << endl;
+        getch();cout << endl;
         addTask(lists, hitung);
     }
     lists[hitung].gender = input;
     cout << "Keluhan>> ";
     getline(cin, lists[hitung].keluhan);
-    Date(date, lists, hitung);
+    Date(date,lists,hitung);
     lists[hitung].status = "Dijadwalkan";
     hitung++;
     saveToFile(lists, hitung);
@@ -387,6 +427,7 @@ void updateTask(ToDo *lists, int hitung)
     getline(cin, input);
     string nama = input;
 
+    bool get = false;
     for (int j = 0; j < nama.size(); j++)
     {
         nama[j] = tolower(nama[j]);
@@ -409,6 +450,7 @@ void updateTask(ToDo *lists, int hitung)
         int found = temp.find(nama);
         if (found >= 0)
         {
+            get = true;
             cout << "|" << setw(3) << right << i + 1 << "\t" << setw(25) << left << lists[i].nama << setw(10) << right << lists[i].umur << "\t" << setw(6) << left << lists[i].goldar << "\t" << setw(6) << left << lists[i].gender << "\t" << setw(25) << left << lists[i].keluhan << "\t" << setw(24) << left << lists[i].waktutemu << "\t" << setw(13) << left << lists[i].status << "|" << endl;
             cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
             name_search++;
@@ -416,6 +458,12 @@ void updateTask(ToDo *lists, int hitung)
             choice = i + 1;
             break;
         }
+    }
+    if (!get)
+    {
+        cout << "\nTidak ada pasien dengan nama \"" << nama << "\".";
+        getch();cout<<endl;
+        MenuPasien();
     }
 
     if (name_search > 0)
