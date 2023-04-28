@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iomanip>
 #include <ctime>
+#include "interli.h"
 using namespace std;
 
 struct ToDo
@@ -33,7 +34,7 @@ struct Resep
     string NamaPasien;
     string NamaObat;
     string Satuan;
-    string Expired ;
+    string Expired;
     string DosisObat;
     int Jumlah;
 };
@@ -43,7 +44,7 @@ void LoadData_Pasien();
 void LoadData_Dokter();
 void LoadData_Apoteker();
 void ShellSort();
-void SearchPasien(ToDo* lists, int hitung);
+void SearchPasien(ToDo *lists, int hitung);
 void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int field, int counts);
 
 const int max_task = 100;
@@ -55,7 +56,6 @@ int field = 0;
 int counts = 0;
 int pilih_menu = 0;
 tm date = {}; // reminder : date value 0
-
 
 void showTask(ToDo lists[], int hitung)
 {
@@ -89,13 +89,11 @@ void saveToFile(ToDo lists[], int hitung)
         outfile << lists[i].waktutemu << "/";
         outfile << lists[i].status << endl;
     }
-
 }
-
 
 void Date(tm &date, ToDo lists[], int hitung)
 {
-    // Mendapatkan waktu sekarang 
+    // Mendapatkan waktu sekarang
     time_t now = time(nullptr); // nullptr bawaan cpp dia pointernull
     // Konversi waktu saat ini ke struct tm
     tm *local_now = localtime(&now);
@@ -103,13 +101,14 @@ void Date(tm &date, ToDo lists[], int hitung)
     cout << "Masukkan tanggal (DD-MM-YYYY) >>  ";
     cin >> get_time(&date, "%d-%m-%Y");
 
-    if (cin.fail() || mktime(&date) < now) 
+    if (cin.fail() || mktime(&date) < now)
     {
         cin.clear();
-        cout << "Format tanggal tidak valid atau tanggal tidak boleh sebelum hari ini!"; 
-        getch(); 
+        cout << "Format tanggal tidak valid atau tanggal tidak boleh sebelum hari ini!";
+        getch();
         cout << endl;
-        while (cin.get() != '\n');
+        while (cin.get() != '\n')
+            ;
         Date(date, lists, hitung);
     }
     else
@@ -121,7 +120,6 @@ void Date(tm &date, ToDo lists[], int hitung)
     }
 }
 
-
 void ShellSort()
 {
     ToDo temp;
@@ -131,9 +129,9 @@ void ShellSort()
         {
             temp = lists[i];
             int j;
-            for (j = i; j >= gap && lists[j-gap].nama > temp.nama; j -= gap)
+            for (j = i; j >= gap && lists[j - gap].nama > temp.nama; j -= gap)
             {
-                lists[j] = lists[j-gap];
+                lists[j] = lists[j - gap];
             }
             lists[j] = temp;
         }
@@ -166,12 +164,12 @@ void SearchPasien(ToDo *lists, int hitung)
     }
     cout << "Daftar Task:\n";
     cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
-    for (int i = 0; i <hitung; i++)
+    for (int i = 0; i < hitung; i++)
     {
         string temp = lists[i].nama;
         for (int j = 0; j < temp.size(); j++)
         {
-        temp[j] = tolower(temp[j]);
+            temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
@@ -182,7 +180,7 @@ void SearchPasien(ToDo *lists, int hitung)
     }
 }
 
-void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  field, int counts)
+void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int field, int counts)
 {
     system("cls");
     if (hitung == 0)
@@ -209,10 +207,10 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
     cout << "Daftar Task:\n";
     for (int i = 0; i < hitung; i++)
     {
-        string temp = lists[i].nama ;
+        string temp = lists[i].nama;
         for (int j = 0; j < temp.size(); j++)
         {
-        temp[j] = tolower(temp[j]);
+            temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
@@ -226,10 +224,10 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
 
     for (int i = 0; i < field; i++)
     {
-        string temp = review[i].nama ;
+        string temp = review[i].nama;
         for (int j = 0; j < temp.size(); j++)
         {
-        temp[j] = tolower(temp[j]);
+            temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
@@ -243,10 +241,10 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
 
     for (int i = 0; i < counts; i++)
     {
-        string temp = final[i].NamaPasien ;
+        string temp = final[i].NamaPasien;
         for (int j = 0; j < temp.size(); j++)
         {
-        temp[j] = tolower(temp[j]);
+            temp[j] = tolower(temp[j]);
         }
 
         int found = temp.find(nama);
@@ -254,10 +252,10 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
         {
             cout << "-------------------------------------------------------------------------------------------------" << endl;
             cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
-            cout << i + 1 << "\t" << final[i].NamaPasien << "\t\t\t" 
-                 << final[i].NamaObat << "\t\t" << final[i].Satuan 
-                 << "\t\t" << final[i].Expired <<"\t\t"<< final[i].DosisObat 
-                 << "\t\t" << final[i].Jumlah <<endl;
+            cout << i + 1 << "\t" << final[i].NamaPasien << "\t\t\t";
+            cout << final[i].NamaObat << "\t\t" << final[i].Satuan;
+            cout << "\t\t" << final[i].Expired << "\t\t" << final[i].DosisObat;
+            cout << "\t\t" << final[i].Jumlah << endl;
         }
     }
 }
@@ -294,8 +292,9 @@ void addTask(ToDo lists[], int &hitung)
     if (input != "A" && input != "B" && input != "AB" && input != "O")
     {
         cout << "Masukkan Goldar dengan benar!-(A/B/AB/O)";
-        getch(); cout << endl;
-        addTask(lists,hitung);
+        getch();
+        cout << endl;
+        addTask(lists, hitung);
     }
     lists[hitung].goldar = input;
     cout << "Gender (L/P)>> ";
@@ -303,13 +302,14 @@ void addTask(ToDo lists[], int &hitung)
     if (input != "L" && input != "P")
     {
         cout << "Masukkan Gender dengan benar!-(L/P)";
-        getch();cout << endl;
+        getch();
+        cout << endl;
         addTask(lists, hitung);
     }
     lists[hitung].gender = input;
     cout << "Keluhan>> ";
     getline(cin, lists[hitung].keluhan);
-    Date(date,lists,hitung);
+    Date(date, lists, hitung);
     lists[hitung].status = "Dijadwalkan";
     hitung++;
     saveToFile(lists, hitung);
@@ -452,22 +452,24 @@ void updateTask(ToDo *lists, int hitung)
         if (input != "A" && input != "B" && input != "AB" && input != "O")
         {
             cout << "Masukkan Goldar dengan benar!-(A/B/AB/O)";
-            getch(); cout << endl;
-            addTask(lists,hitung);
+            getch();
+            cout << endl;
+            addTask(lists, hitung);
         }
-        lists[choice-1].goldar = input;
+        lists[choice - 1].goldar = input;
         cout << "Gender (L/P)>> ";
         getline(cin, input);
         if (input != "L" && input != "P")
         {
             cout << "Masukkan Gender dengan benar!-(L/P)";
-            getch();cout << endl;
+            getch();
+            cout << endl;
             updateTask(lists, hitung);
         }
-        lists[choice-1].gender = input;
+        lists[choice - 1].gender = input;
         cout << "Keluhan>> ";
         getline(cin, lists[choice - 1].keluhan);
-        Date(date, lists, choice-1);
+        Date(date, lists, choice - 1);
         lists[choice - 1].status = "Dijadwalkan";
         saveToFile(lists, hitung);
         cout << "\nData berhasil diupdate ke dalam Database\n";
@@ -573,7 +575,7 @@ void LoadData_Apoteker()
     while (getline(infile_apoteker, line))
     {
         stringstream iss(line);
-        string nama_pasien,nama_obat,satuan,expired,dosis,jumlah_obat;
+        string nama_pasien, nama_obat, satuan, expired, dosis, jumlah_obat;
         getline(iss, nama_pasien, '/');
         getline(iss, nama_obat, '/');
         getline(iss, satuan, '/');
@@ -612,122 +614,42 @@ void MenuPasien()
     LoadData_Dokter();
     LoadData_Apoteker();
     fflush(stdin);
-    int pilih_menu = 0;
     int count_menu = 6;
-    string desc_menupasien[6] = {"[1] Create Task", "[2] lists task", "[3] Delete Data", "[4] Update Task", "[5] Hasil Analisis" ,"[0] Exit"};
+    string desc_menupasien[6] = {"[1] Create Task", "[2] lists task", "[3] Delete Data", "[4] Update Task", "[5] Hasil Analisis", "[0] Exit"};
     string header_menupasien = "Pharma-10";
+    create_menus(count_menu, desc_menupasien, header_menupasien);
 
-    while (true)
+    if (current_selection == 0)
     {
-        system("cls");
-        cout << setw((80 - header_menupasien.size()) / 2) << "";
-        cout << "===============================" << setw((80 - header_menupasien.size()) / 2) << "" << endl;
-        cout << setw((80 - header_menupasien.size()) / 2) << "";
-        cout << "---------- " << header_menupasien << " ----------" << setw((80 - header_menupasien.size()) / 2) << "" << endl;
-        cout << setw((80 - header_menupasien.size()) / 2) << "";
-        cout << "===============================" << setw((80 - header_menupasien.size()) / 2) << "" << endl;
-        for (int i = 0; i < count_menu; i++)
-        {
-            if (i == pilih_menu)
-            {
-                cout << setw((80 - header_menupasien.size()) / 2) << "";
-                cout << ">>";
-                cout << "  " << desc_menupasien[i] << "  ";
-                cout << " <<";
-                cout << setw((80 - header_menupasien.size()) / 2) << "" << endl;
-            }
-            else
-            {
-                cout << setw((80 - header_menupasien.size()) / 2) << "";
-                cout << "  ";
-                cout << "  " << desc_menupasien[i] << "  ";
-                cout << "  ";
-                cout << setw((80 - header_menupasien.size()) / 2) << "" << endl;
-            }
-        }
-
-        char keys = getch();
-        if (keys == 80)
-        {
-            if (pilih_menu < count_menu - 1)
-            {
-                pilih_menu++;
-            }
-            else
-            {
-                pilih_menu = 0;
-            }
-        }
-        else if (keys == 72)
-        {
-            if (pilih_menu > 0)
-            {
-                pilih_menu--;
-            }
-            else
-            {
-                pilih_menu = count_menu - 1;
-            }
-        }
-        else if (keys == 13)
-        {
-            try
-            {
-                if (pilih_menu == 0)
-                {
-                    addTask(lists, hitung);
-                    break;
-                }
-                else if (pilih_menu == 1)
-                {
-                    showTask(lists, hitung);
-                    cout << "\nTekan Enter untuk kembali ke menu";
-                    getch();
-                    cout << endl;
-                    MenuPasien();
-                    break;
-                }
-                else if (pilih_menu == 2)
-                {
-                    deleteTask();
-                    break;
-                }
-                else if (pilih_menu == 3)
-                {
-                    updateTask(lists, hitung);
-                    break;
-                }
-                else if (pilih_menu == 4)
-                {
-                    Final_Decision(lists,hitung);
-                    cout << "\nTekan Enter untuk kembali ke menu";
-                    getch();
-                    cout << endl;
-                    MenuPasien();
-                    break;
-                    
-                }
-                else if (pilih_menu == 5)
-                {
-                    exit(0);
-                    break;
-                }
-                else
-                {
-                    cout << "\nMenu tidak ada, Enter untuk kembali";
-                    getch();
-                    cout << endl;
-                    MenuPasien();
-                }
-            }
-            catch (invalid_argument exception)
-            {
-                cout << "\nMenu tidak ada, Enter untuk kembali";
-                getch();
-                cout << endl;
-                MenuPasien();
-            }
-        }
+        addTask(lists, hitung);
+    }
+    else if (current_selection == 1)
+    {
+        showTask(lists, hitung);
+        cout << "\nTekan Enter untuk kembali ke menu";
+        getch();
+        cout << endl;
+        MenuPasien();
+    }
+    else if (current_selection == 2)
+    {
+        deleteTask();
+    }
+    else if (current_selection == 3)
+    {
+        updateTask(lists, hitung);
+    }
+    else if (current_selection == 4)
+    {
+        Final_Decision(lists, hitung);
+        cout << "\nTekan Enter untuk kembali ke menu";
+        getch();
+        cout << endl;
+        MenuPasien();
+    }
+    else if (current_selection == 5)
+    {
+        exit(0);
     }
 }
 
