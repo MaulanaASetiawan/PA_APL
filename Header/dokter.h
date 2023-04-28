@@ -45,7 +45,7 @@ void fileChecker()
     {
         ofstream DataDokter;
         DataDokter.open("Database/Data_Dokter.csv");
-        DataDokter << "Nama, Keluhan, Hasil" << endl;
+        DataDokter << "Nama/Keluhan/Hasil" << endl;
         DataDokter.close();
     }
 }
@@ -66,7 +66,7 @@ void csvToArray()
 
             Pasien pasien;
 
-            while (getline(ss, field, ','))
+            while (getline(ss, field, '/'))
             {
                 switch (fieldIndex)
                 {
@@ -171,7 +171,7 @@ void CreateDokter()
             cout << "Masukkan hasil analisis: ";
             getline(cin, hasil[i].hasil);
             fflush(stdin);
-            DataDokter << hasil[i].nama << "," << hasil[i].keluhan << "," << hasil[i].hasil << endl;
+            DataDokter << hasil[i].nama << "/" << hasil[i].keluhan << "/" << hasil[i].hasil << endl;
             DataDokter.close();
             found = true;
             break;
