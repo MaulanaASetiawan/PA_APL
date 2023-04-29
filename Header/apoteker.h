@@ -170,61 +170,49 @@ void Addprescription(SalinanResep listResep[], HasilAnalisiDokter listData[], in
 {
     string input;
     system("cls");
-    Searchnamepasien(listData, Jumlah);
+    fflush(stdin);
+    Searchnamepasien(listData,Jumlah);
     cout << endl;
-    cout << "Salinan Resep Obat:" << endl;
-    cout << "\nNama Pasien>> ";
-    getline(cin, listResep[counted].NamaPasien);
-    // listResep[counted].NamaPasien =  listData[Jumlah].nama;
-    cout << "Nama Obat>> ";
-    getline(cin, listResep[counted].NamaObat);
-    cout << "Jenis Obat (Tablet/Kapsul/Pil/Serbuk/ObatCair)>> ";
-    getline(cin, input);
-    if (input != "Tablet" && input != "tablet" && input != "Kapsul" && input != "kapsul" && input != "Pil" && input != "pil" && input != "Serbuk" && input != "serbuk" && input != "ObatCair" && input != "obatcair")
+    cout << "Salinan Resep Obat:"<< endl;
+    cout << "\nNama Pasien>> "; getline(cin,listResep[counted].NamaPasien);
+    cout << "Nama Obat>> "; getline(cin,listResep[counted].NamaObat);
+    cout << "Jenis Obat (Tablet/Kapsul/Pil/Serbuk/ObatCair)>> ";getline(cin, input);
+    if (input != "Tablet" && input != "tablet" && input != "Kapsul" && input != "kapsul" 
+        && input !="Pil" && input != "pil" && input != "Serbuk" && input != "serbuk" && input != "ObatCair" && input != "obatcair")
     {
         cout << "Masukkan Jenis Obat yang benar!(Tekan Enter)";
-        getch();
-        cout << endl;
+        getch();cout << endl;
         fflush(stdin);
-        Addprescription(listResep, listData, counted, Jumlah);
+        Addprescription(listResep,listData,counted, Jumlah);
     }
     listResep[counted].Satuan = input;
-    Date(date, listResep, counted);
-    cout << "Dosis Obat>> ";
-    getline(cin, listResep[counted].DosisObat);
+    Date(date,listResep,counted);
+    cout << "Dosis Obat>> "; getline(cin, listResep[counted].DosisObat);
     try
     {
-        cout << "Jumlah Obat>> ";
-        getline(cin, input);
+        cout << "Jumlah Obat>> "; getline(cin,input);
         listResep[counted].Jumlah = stoi(input);
         if (listResep[counted].Jumlah < 1)
         {
-            cout << "Jumlah salah";
-            getch();
-            cout << endl;
-            fflush(stdin);
-            Addprescription(listResep, listData, counted, Jumlah);
+            cout << "Jumlah salah"; getch();cout<<endl;fflush(stdin);
+            Addprescription(listResep,listData,counted, Jumlah);
         }
     }
-    catch (std::invalid_argument &e)
+    catch(std::invalid_argument& e)
     {
-        cout << "Inputan harus Integer(Tekan Enter)";
-        getch();
-        cout << endl;
-        fflush(stdin);
-        Addprescription(listResep, listData, counted, Jumlah);
+        cout<<"Inputan harus Integer(Tekan Enter)"; getch(); cout << endl;fflush(stdin);
+        Addprescription(listResep,listData,counted, Jumlah);
     }
     fflush(stdin);
     counted++;
     Savetofiles(listResep, counted);
 
     cout << "\nData berhasil disimpan ke dalam Database\n";
-    cout << "Tekan Enter untuk kembali ke menu";
-    getch();
-    cout << endl;
-    fflush(stdin);
+    cout << "Tekan Enter untuk kembali ke menu";getch(); cout<<endl;fflush(stdin);
     MenuApoteker();
+        
 }
+
 
 void Loaddataresep()
 {
@@ -273,6 +261,7 @@ void Loaddataresep()
     }
     files.close();
 }
+
 void Loadhasildokter()
 {
     ifstream file;
