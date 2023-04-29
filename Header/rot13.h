@@ -2,6 +2,7 @@
 #define ROT13_H
 
 #include <string>
+using namespace std;
 
 string Rot13(string kata)
 {
