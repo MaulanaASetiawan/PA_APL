@@ -11,13 +11,9 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-void Loadhasildokter(); void MenuApoteker(); void Menureadapoteker();
-=======
 void Loadhasildokter();
 void MenuApoteker();
 void Menushow();
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
 
 struct SalinanResep
 {
@@ -50,12 +46,6 @@ void Showprescription(SalinanResep listResep[], int counted)
     system("cls");
     if (counted == 0)
     {
-<<<<<<< HEAD
-        cout << "====================" << endl
-             << "   Data Kosong    " << endl
-             << "====================";getch();cout << endl;fflush(stdin);
-        Menureadapoteker();
-=======
         cout << "====================" << endl;
         cout << "   Data Kosong    " << endl;
         cout << "====================";
@@ -63,7 +53,6 @@ void Showprescription(SalinanResep listResep[], int counted)
         cout << endl;
         fflush(stdin);
         Menushow();
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
     }
     cout << "Daftar :\n";
     cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
@@ -81,19 +70,12 @@ void Showhasildokter(HasilAnalisiDokter listData[], int Jumlah)
     system("cls");
     if (Jumlah == 0)
     {
-<<<<<<< HEAD
-    cout << "====================" << endl
-         << "    Data Kosong     " << endl
-         << "====================";getch();cout << endl;
-    Menureadapoteker();
-=======
         cout << "====================" << endl;
         cout << "    Data Kosong     " << endl;
         cout << "====================";
         getch();
         cout << endl;
         Menushow();
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
     }
     cout << "Hasil Analisis:\n";
     cout << "No\tNama\t\tKeluhan\t\t Hasil\n";
@@ -153,13 +135,8 @@ void Date(tm &date, SalinanResep listResep[], int counted)
     }
 }
 
-<<<<<<< HEAD
-void Searchnamepasien(HasilAnalisiDokter listData[], int Jumlah){
-    fflush(stdin);
-=======
 void Searchnamepasien(HasilAnalisiDokter listData[], int Jumlah)
 {
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
     string Searchname;
     cout << "\nMasukkan Nama Pasien >> ";
     getline(cin, Searchname);
@@ -193,17 +170,6 @@ void Addprescription(SalinanResep listResep[], HasilAnalisiDokter listData[], in
 {
     string input;
     system("cls");
-<<<<<<< HEAD
-    fflush(stdin);
-    Searchnamepasien(listData,Jumlah);
-    cout << endl;
-    cout << "Salinan Resep Obat:"<< endl;
-    cout << "\nNama Pasien>> "; getline(cin,listResep[counted].NamaPasien);
-    cout << "Nama Obat>> "; getline(cin,listResep[counted].NamaObat);
-    cout << "Jenis Obat (Tablet/Kapsul/Pil/Serbuk/ObatCair)>> ";getline(cin, input);
-    if (input != "Tablet" && input != "tablet" && input != "Kapsul" && input != "kapsul" 
-        && input !="Pil" && input != "pil" && input != "Serbuk" && input != "serbuk" && input != "ObatCair" && input != "obatcair")
-=======
     Searchnamepasien(listData, Jumlah);
     cout << endl;
     cout << "Salinan Resep Obat:" << endl;
@@ -215,7 +181,6 @@ void Addprescription(SalinanResep listResep[], HasilAnalisiDokter listData[], in
     cout << "Jenis Obat (Tablet/Kapsul/Pil/Serbuk/ObatCair)>> ";
     getline(cin, input);
     if (input != "Tablet" && input != "tablet" && input != "Kapsul" && input != "kapsul" && input != "Pil" && input != "pil" && input != "Serbuk" && input != "serbuk" && input != "ObatCair" && input != "obatcair")
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
     {
         cout << "Masukkan Jenis Obat yang benar!(Tekan Enter)";
         getch();
@@ -276,7 +241,6 @@ void Loaddataresep()
     while (getline(files, lines))
     {
         stringstream ss(lines);
-<<<<<<< HEAD
         string Pasien,Obat,Satuan,Expired,Jumlah,Dosis;
         getline(ss, Pasien, '/');
         getline(ss, Obat, '/');
@@ -285,15 +249,6 @@ void Loaddataresep()
         getline(ss, Dosis, '/');
         getline(ss, Jumlah, '/');
         
-=======
-        string Pasien, Obat, Satuan, Expired, Jumlah, Dosis;
-        getline(ss, Pasien, ',');
-        getline(ss, Obat, ',');
-        getline(ss, Satuan, ',');
-        getline(ss, Expired, ',');
-        getline(ss, Dosis, ',');
-        getline(ss, Jumlah, ',');
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
 
         listResep[counted].NamaPasien = Pasien;
         listResep[counted].NamaObat = Obat;
@@ -333,18 +288,11 @@ void Loadhasildokter()
     while (getline(file, line))
     {
         stringstream ss(line);
-<<<<<<< HEAD
         string Namapasien,Keluhan,Hasil;
         getline(ss, Namapasien, '/');
         getline(ss, Keluhan, '/');
         getline(ss, Hasil, '/');
         
-=======
-        string Namapasien, Keluhan, Hasil;
-        getline(ss, Namapasien, ',');
-        getline(ss, Keluhan, ',');
-        getline(ss, Hasil, ',');
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
 
         listData[Jumlah].nama = Namapasien;
         listData[Jumlah].keluhan = Keluhan;
@@ -377,48 +325,10 @@ void SelectionSort(SalinanResep listResep[], int counted)
     }
 }
 
-<<<<<<< HEAD
-=======
-void Menushow()
-{
-    fflush(stdin);
-    int count_menu = 3;
-    string desc_MenuShow[3] = {"[1] List Hasil Analisis Dokter", "[2] List Salinan Resep", "[0] Kembali"};
-    string header_MenuShow = "Menu Show";
-    create_menus(count_menu, desc_MenuShow, header_MenuShow);
-
-    if (current_selection == 0)
-    {
-        Loadhasildokter();
-        Showhasildokter(listData, Jumlah);
-        cout << "\nTekan Enter untuk kembali ke menu";
-        getch();
-        cout << endl;
-    }
-    else if (current_selection == 1)
-    {
-        Loaddataresep();
-        SelectionSort(listResep, counted);
-        Showprescription(listResep, counted);
-        cout << "\nTekan Enter untuk kembali ke menu";
-        getch();
-        cout << endl;
-    }
-    else if (current_selection == 2)
-    {
-        cout << "Kembali ke Menu Apoteker, Enter untuk kembali";
-        getch();
-        cout << endl;
-        MenuApoteker();
-    }
-}
-
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
 void MenuApoteker()
 {
     Loaddataresep();
     Loadhasildokter();
-<<<<<<< HEAD
     system("cls");
     string deskripsi_menu[3] = {"Tambah Salinan Resep","List","Exit"};
     string header_menu = "Menu Apoteker";
@@ -435,36 +345,10 @@ void MenuApoteker()
         MenuApoteker();
     }
     else
-=======
-    fflush(stdin);
-    int count_menu = 3;
-    string desc_menupasien[5] = {"[1] Tambah Salinan Resep", "[2] List", "[0] Exit"};
-    string header_menupasien = "Menu Salinan Resep Obat";
-    create_menus(count_menu, desc_menupasien, header_menupasien);
-
-    if (current_selection == 0)
-    {
-        Addprescription(listResep, listData, counted, Jumlah);
-        cout << "\nTekan Enter untuk kembali ke menu";
-        getch();
-        cout << endl;
-        MenuApoteker();
-    }
-    else if (current_selection == 1)
-    {
-        Menushow();
-        cout << "\nTekan Enter untuk kembali ke menu";
-        getch();
-        cout << endl;
-        MenuApoteker();
-    }
-    else if (current_selection == 2)
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
     {
         cout << "Keluar dari program.\n";
         exit(0);
     }
-<<<<<<< HEAD
 }
 
 void Menureadapoteker()
@@ -489,13 +373,6 @@ void Menureadapoteker()
     }
     else 
     {
-=======
-    else
-    {
-        cout << "\nMenu tidak ada, Enter untuk kembali";
-        getch();
-        cout << endl;
->>>>>>> 79d0331ff9b20597a06c1eef6e62500fd8ff3c2d
         MenuApoteker();
     }
 }
