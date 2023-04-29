@@ -13,7 +13,7 @@ using namespace std;
 
 void Loadhasildokter();
 void MenuApoteker();
-void Menushow();
+void Menureadapoteker();
 
 struct SalinanResep
 {
@@ -52,7 +52,7 @@ void Showprescription(SalinanResep listResep[], int counted)
         getch();
         cout << endl;
         fflush(stdin);
-        Menushow();
+        Menureadapoteker();
     }
     cout << "Daftar :\n";
     cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
@@ -75,7 +75,7 @@ void Showhasildokter(HasilAnalisiDokter listData[], int Jumlah)
         cout << "====================";
         getch();
         cout << endl;
-        Menushow();
+        Menureadapoteker();
     }
     cout << "Hasil Analisis:\n";
     cout << "No\tNama\t\tKeluhan\t\t Hasil\n";
