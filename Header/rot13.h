@@ -1,9 +1,7 @@
 #ifndef ROT13_H
 #define ROT13_H
 
-#include <iostream>
 #include <string>
-using namespace std;
 
 string Rot13(string kata)
 {

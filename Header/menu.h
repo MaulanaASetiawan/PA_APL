@@ -1,7 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <iostream>
 #include <conio.h>
 #include "interli.h"
 #include "reglog.h"

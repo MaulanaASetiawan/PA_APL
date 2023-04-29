@@ -7,7 +7,6 @@
 #include <conio.h>
 #include <sstream>
 #include <filesystem>
-#include <cstring>
 #include "interli.h"
 using namespace std;
 using namespace filesystem;
