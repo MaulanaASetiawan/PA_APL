@@ -176,8 +176,8 @@ void SearchPasien(ToDo *lists, int hitung)
         {
             get = true;
             cout << "Daftar Task:\n";
-            cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
-            cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
+            cout << "Nama\t\t\t\tGender\t\tStatus\n";
+            cout << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
         }
     }
     if (!get)
@@ -216,8 +216,8 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
         {
             get = true;
             cout << "-------------------------------------------------------------------------------------------------" << endl;
-            cout << "No\tNama\t\t\t\tGender\t\tStatus\n";
-            cout << i + 1 << "\t" << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
+            cout << "No\tNama\t\t\tGender\t\tStatus\n";
+            cout << lists[i].nama << "\t\t" << lists[i].gender << "\t\t" << lists[i].status << endl;
         }
     }
     if (!get)
@@ -242,8 +242,8 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
             {
                 foundDokter = true;
                 cout << "-------------------------------------------------------------------------------------------------" << endl;
-                cout << "No\tNama\t\t\t\tKeluhan\t\tHasil\n";
-                cout << i + 1 << "\t" << review[i].nama << "\t\t" << review[i].keluhan << "\t\t" << review[i].hasil << endl;
+                cout << "Nama\t\t\t\tKeluhan\t\t\tHasil\n";
+                cout << review[i].nama << "\t\t" << review[i].keluhan << "\t\t" << review[i].hasil << endl;
             }
         }
         if(!foundDokter)
@@ -266,8 +266,8 @@ void FinalAnalisis(ToDo *lists, Dokter *review, Resep *Final, int hitung, int  f
             {
                 foundApoteker = true;
                 cout << "-------------------------------------------------------------------------------------------------" << endl;
-                cout << "No\tNama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
-                cout << i + 1 << "\t" << final[i].NamaPasien << "\t\t\t" 
+                cout << "Nama Pasien\t\tNama Obat\t\tSatuan\t\tExpired\t\tDosis Obat\t\tJumlah\n";
+                cout << final[i].NamaPasien << "\t\t\t" 
                         << final[i].NamaObat << "\t\t" << final[i].Satuan 
                         << "\t\t" << final[i].Expired <<"\t\t"<< final[i].DosisObat 
                         << "\t\t" << final[i].Jumlah <<endl;
@@ -376,7 +376,7 @@ void deleteTask()
     showTask(lists, hitung);
     string input;
     int index;
-    cout << "\nMasukkan no Jadwal yang sudah selesai>> ";
+    cout << "\nMasukkan no sesuai tabel>> ";
     getline(cin, input);
 
     try
@@ -438,7 +438,7 @@ void updateTask(ToDo *lists, int hitung)
     cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     cout << "|-------------------------------------------------  BIODATA PASIEN  -------------------------------------------------------------------------|" << endl;
     cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
-    cout << "| No\tNama\t\t\t\tUmur\tGoldar\tGender\tKeluhan\t\t\t\tWaktu Temu\t\t\tStatus       |" << endl;
+    cout << "|Nama\t\t\t\tUmur\tGoldar\tGender\tKeluhan\t\t\t\tWaktu Temu\t\t\tStatus            |" << endl;
     cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     for (int i = 0; i < hitung; i++)
     {
@@ -451,7 +451,7 @@ void updateTask(ToDo *lists, int hitung)
         if (found >= 0)
         {
             get = true;
-            cout << "|" << setw(3) << right << i + 1 << "\t" << setw(25) << left << lists[i].nama << setw(10) << right << lists[i].umur << "\t" << setw(6) << left << lists[i].goldar << "\t" << setw(6) << left << lists[i].gender << "\t" << setw(25) << left << lists[i].keluhan << "\t" << setw(24) << left << lists[i].waktutemu << "\t" << setw(13) << left << lists[i].status << "|" << endl;
+            cout << "|" << setw(25) << left << lists[i].nama << setw(10) << right << lists[i].umur << "\t" << setw(6) << left << lists[i].goldar << "\t" << setw(6) << left << lists[i].gender << "\t" << setw(25) << left << lists[i].keluhan << "\t" << setw(24) << left << lists[i].waktutemu << "\t" << setw(13) << left << lists[i].status << "|" << endl;
             cout << "+--------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
             name_search++;
 
@@ -663,7 +663,7 @@ void MenuPasien()
     LoadData_Apoteker();
     fflush(stdin);
     int count_menu = 6;
-    string desc_menupasien[6] = {"[1] Create Task", "[2] lists task", "[3] Delete Data", "[4] Update Task", "[5] Hasil Analisis", "[0] Exit"};
+    string desc_menupasien[6] = {"Create Data", "Lists Penjadwalan", "Delete Data", "Update Data", "Hasil Analisis", "Exit"};
     string header_menupasien = "Pharma-10";
     create_menus(count_menu, desc_menupasien, header_menupasien);
 
